@@ -67,7 +67,7 @@ class DataAccessObject {
      * @return cnt the number of rows in the corresponding table
      */
     public function count() {
-        return $this->conn->execute("SELECT COUNT(*) AS cnt FROM $this->tableName", $opt)[0]['cnt'];
+        return $this->conn->execute("SELECT COUNT(*) AS cnt FROM $this->tableName")[0]['cnt'];
     }
 
     /**
@@ -80,7 +80,6 @@ class DataAccessObject {
         $opt['id'] = $id;
         //edit query accordingly to the primary key
         $rs = $this->conn->execute("SELECT * FROM $this->tableName WHERE id=:id", $opt)[0];
-        //edit accordingly to the respective DataObject class definition
         if ($rs != null) {
             return DataObject::fromArray($rs);
         }
