@@ -11,14 +11,14 @@ class DBConnector {
 
     /**
      * Constructor for the db connector class
-     * @param ini path to a configuration file, which must contain:
+     * @param string $ini path to a configuration file, which must contain:
      *  -username
      *  -password
      *  -host
      *  -port
      *  -dbname
      */
-    public function __construct($ini) {
+    public function __construct(string $ini) {
         //open the connection
         $options=parse_ini_file($ini);
         $username = $options['username'];
@@ -31,11 +31,11 @@ class DBConnector {
 
     /**
      * execute a query on the db, and return the result
-     * @param query the query to be executed, it can contain also placeholders for parameters (whose values must be contained in the following argument)
-     * @param params the parameters for the query as an associative array with key = placeholder in the query
-     * @return arr an indexed array of associative arrays with the query result, or null if the query returned 0 rows
+     * @param string $query the query to be executed, it can contain also placeholders for parameters (whose values must be contained in the following argument)
+     * @param array $params the parameters for the query as an associative array with key = placeholder in the query
+     * @return array|false an indexed array of associative arrays with the query result, or false if an error occurred when executing the query
      */
-    public function execute($query, $params = null) {
+    public function execute(string $query, array $params = null) {
         $rs = "";
         $this->st = $this->db->prepare($query);
         if ($params != null) {
@@ -47,8 +47,8 @@ class DBConnector {
         //execute
         $this->st->execute();
         //get result set
-        $rs = $this->st->fetchAll(PDO::FETCH_ASSOC);
-        return $rs;
+        if($rs = $this->st->fetchAll(PDO::FETCH_ASSOC)) return $rs;
+        return false;
     }
 }
 ?>
