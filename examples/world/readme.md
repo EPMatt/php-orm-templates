@@ -5,6 +5,4 @@ The `php` folder contains:
 - `cities.php` which defines the DAO class for the table;
 - `city.php` which defines the DO class for the table.
 
-As the application only reads data from the database, methods for inserting, updating or deleting records have been deleted.
-
 The website uses [Bootstrap](https://getbootstrap.com/) for elements styling and responsive resizing.

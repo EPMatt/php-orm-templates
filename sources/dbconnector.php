@@ -19,7 +19,6 @@ class DBConnector {
      *  -dbname
      */
     public function __construct(string $ini) {
-        //open the connection
         $options=parse_ini_file($ini);
         $username = $options['username'];
         $password = $options['password'];
@@ -44,11 +43,18 @@ class DBConnector {
                 $this->st->bindValue(':' . $key, $param);
             }
         }
-        //execute
-        $this->st->execute();
-        //get result set
-        if($rs = $this->st->fetchAll(PDO::FETCH_ASSOC)) return $rs;
+        //execute and fetch
+        if($this->st->execute()===true) return $this->st->fetchAll(PDO::FETCH_ASSOC);
         return false;
+    }
+
+    /**
+     * get the number of affected rows for the last executed query
+     * @return int the number of affected rows for the last executed query
+     */
+    public function lastAffectedRows(){
+        if($this->st===null) return 0;
+        return $this->st->rowCount();
     }
 }
 ?>
